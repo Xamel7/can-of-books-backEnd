@@ -45,7 +45,7 @@ app.get('/books', async (request, response) => {
 
 app.post('/books', async (request, response) => {
   // Extract the book cover data from the request body
-  let cover = request.body;
+  let cover = new bookModel(title = request.body.title)
   // Insert the book cover into the arrayOfBooks collection
   bookModel.insertMany(cover)
     .then(() => {
