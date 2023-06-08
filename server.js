@@ -81,8 +81,8 @@ app.put('/books/:id', async (request, response) => {
   // Extract the book ID from the request parameters
   let coverId = request.params.id;
   // Extract the updated book cover data from the request body
-  let cover = request.body;
-  cover._id = request.params.id
+  let cover = request.body
+  // cover._id = request.params.id
   // Find the book with the specified ID and update it with the new cover data
   // The { new: true } option ensures that the updated document is returned
   let newCover = await bookModel.findByIdAndUpdate(coverId, cover, { $set: { new: true } });
