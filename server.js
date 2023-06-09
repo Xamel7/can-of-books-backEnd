@@ -72,10 +72,6 @@ app.delete('/books/:id', async (request, response) => {
   await bookModel.findByIdAndDelete(bookId)
   // Send a response indicating successful deletion
   response.send('Error: Books Unavailable')
-    .catch((error) => {
-      // Handle database error and send an error response
-      response.status(500).json({ error: error.message })
-    });
   // If the control reaches this point, it means the response was sent earlier
   // In case of an error or invalid ID, the response will be 'Book deleted'
   // Therefore, the line below might not be necessary or accurate
