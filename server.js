@@ -46,7 +46,11 @@ app.get('/books', async (request, response) => {
 
 app.post('/books', async (request, response) => {
   // Extract the book cover data from the request body
-  let cover = new bookModel(title = request.body.title)
+  let cover = new bookModel({
+    title: request.body.title,
+    description: request.body.description,
+    status: request.body.status
+  })
   // Insert the book cover into the arrayOfBooks collection
   bookModel.insertMany(cover)
     .then(() => {
@@ -65,7 +69,7 @@ app.delete('/books/:id', async (request, response) => {
   // Extract the book ID from the request parameters
   let bookId = request.params.id
   // Delete the book with the specified ID from the allBooks collection
-  await allBooks.findByIdAndDelete(bookId)
+  await bookModel.findByIdAndDelete(bookId)
   // Send a response indicating successful deletion
   response.send('Error: Books Unavailable')
     .catch((error) => {
