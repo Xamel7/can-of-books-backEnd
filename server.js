@@ -5,10 +5,13 @@ const express = require('express');
 const cors = require('cors');
 const bookModel = require("./books");
 const { default: mongoose, connect } = require('mongoose')
+const verifyUser = require("./verifyUser")
+
 
 const app = express();
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
+app.use(verifyUser)
 
 const PORT = process.env.PORT || 3001;
 // Connect to the database using the provided connection string
@@ -35,11 +38,18 @@ console.log('Connected Successful')
 app.get('/books', async (request, response) => {
   try {
     // Fetch all books from the database
-    let allBooks = await bookModel.find({});
+    let allBooks = []
+    if(request.user?.email){
+      allBooks = await bookModel.find({ email: request?.user?.email }).exec();
+    }else{
+      allBooks = await bookModel.find()
+
+    }
     // Send the retrieved books as the response
     response.send(allBooks)
   } catch (error) {
     // Handle server error
+    console.log(error)
     response.status(500).json({ error: 'Server Error' });
   }
 })
@@ -51,6 +61,8 @@ app.post('/books', async (request, response) => {
     description: request.body.description,
     status: request.body.status
   })
+  // Assign the email property of the user object to the book
+  bookModel.email = request.user?.email
   // Insert the book cover into the arrayOfBooks collection
   bookModel.insertMany(cover)
     .then(() => {

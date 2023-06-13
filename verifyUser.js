@@ -1,3 +1,5 @@
+// const axios = require("axios")
+
 async function verifyUser(request, response, next) {
     let auth = request.headers.authorization
     if (auth !== undefined) {
@@ -10,3 +12,5 @@ async function verifyUser(request, response, next) {
     }
     next()
 }
+
+module.exports = verifyUser
