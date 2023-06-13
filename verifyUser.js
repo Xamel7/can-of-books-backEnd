@@ -1,4 +1,4 @@
-// const axios = require("axios")
+const axios = require("axios")
 
 async function verifyUser(request, response, next) {
     let auth = request.headers.authorization
