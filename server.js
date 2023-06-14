@@ -63,7 +63,7 @@ app.post('/books', async (request, response) => {
       status: request.body.status
     })
     // Assign the email property of the user object to the book
-    bookModel.email = request.user?.email
+    cover.email = request.user?.email
     // Insert the book cover into the arrayOfBooks collection
     bookModel.insertMany(cover)
       .then(() => {
@@ -88,7 +88,7 @@ app.delete('/books/:id', async (request, response) => {
     // Delete the book with the specified ID from the allBooks collection
     await bookModel.findByIdAndDelete(bookId)
     // Send a response indicating successful deletion
-    response.send('Error: Books Unavailable')
+    response.send('Deleted book')
     // If the control reaches this point, it means the response was sent earlier
     // In case of an error or invalid ID, the response will be 'Book deleted'
     // Therefore, the line below might not be necessary or accurate
