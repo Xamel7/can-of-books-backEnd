@@ -4,7 +4,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bookModel = require("./books");
-const { default: mongoose, connect } = require('mongoose')
+const mongoose = require('mongoose')
 const verifyUser = require("./verifyUser")
 
 
