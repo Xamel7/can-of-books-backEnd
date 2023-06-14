@@ -107,7 +107,7 @@ app.put('/books/:id', async (request, response) => {
   // cover._id = request.params.id
   // Find the book with the specified ID and update it with the new cover data
   // The { new: true } option ensures that the updated document is returned
-  let newCover = await bookModel.findByIdAndUpdate(coverId, cover, { $set: { new: true } });
+  let newCover = await bookModel.findByIdAndUpdate(coverId, cover,  { new: true });
   // Send the updated book cover as the response
   response.send(newCover)
   } catch(error){
