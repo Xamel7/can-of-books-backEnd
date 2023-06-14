@@ -2,6 +2,7 @@ const axios = require("axios")
 
 async function verifyUser(request, response, next) {
     let auth = request.headers.authorization;
+    console.log('auth is ' + auth)
     if (auth !== undefined) {
         let token = auth.split(" ")[1];
         let headers = {
