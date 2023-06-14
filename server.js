@@ -39,9 +39,9 @@ app.get('/books', async (request, response) => {
   try {
     // Fetch all books from the database
     let allBooks = []
-    if(request.user?.email){
+    if (request.user?.email) {
       allBooks = await bookModel.find({ email: request?.user?.email }).exec();
-    }else{
+    } else {
       allBooks = await bookModel.find()
 
     }
@@ -55,42 +55,51 @@ app.get('/books', async (request, response) => {
 })
 
 app.post('/books', async (request, response) => {
-  // Extract the book cover data from the request body
-  let cover = new bookModel({
-    title: request.body.title,
-    description: request.body.description,
-    status: request.body.status
-  })
-  // Assign the email property of the user object to the book
-  bookModel.email = request.user?.email
-  // Insert the book cover into the arrayOfBooks collection
-  bookModel.insertMany(cover)
-    .then(() => {
-      // Log a success message when the book is added
-      console.log('New Book Added')
-    }).catch((error) => {
-      // Handle database error and send an error response
-      response.status(500).json({ error: error.message })
+  try {
+    // Extract the book cover data from the request body
+    let cover = new bookModel({
+      title: request.body.title,
+      description: request.body.description,
+      status: request.body.status
     })
-  // Send a response indicating that the request was received
-  response.send('Heard')
+    // Assign the email property of the user object to the book
+    bookModel.email = request.user?.email
+    // Insert the book cover into the arrayOfBooks collection
+    bookModel.insertMany(cover)
+      .then(() => {
+        // Log a success message when the book is added
+        console.log('New Book Added')
+      }).catch((error) => {
+        // Handle database error and send an error response
+        response.status(500).json({ error: error.message })
+      })
+    // Send a response indicating that the request was received
+    response.send('Heard')
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 
 app.delete('/books/:id', async (request, response) => {
-  // Extract the book ID from the request parameters
-  let bookId = request.params.id
-  // Delete the book with the specified ID from the allBooks collection
-  await bookModel.findByIdAndDelete(bookId)
-  // Send a response indicating successful deletion
-  response.send('Error: Books Unavailable')
-  // If the control reaches this point, it means the response was sent earlier
-  // In case of an error or invalid ID, the response will be 'Book deleted'
-  // Therefore, the line below might not be necessary or accurate
-  // response.send('Error: Books Unavailable');
+  try {
+    // Extract the book ID from the request parameters
+    let bookId = request.params.id
+    // Delete the book with the specified ID from the allBooks collection
+    await bookModel.findByIdAndDelete(bookId)
+    // Send a response indicating successful deletion
+    response.send('Error: Books Unavailable')
+    // If the control reaches this point, it means the response was sent earlier
+    // In case of an error or invalid ID, the response will be 'Book deleted'
+    // Therefore, the line below might not be necessary or accurate
+    // response.send('Error: Books Unavailable');
+  } catch (error) {
+    console.log(error)
+  }
 });
 
 app.put('/books/:id', async (request, response) => {
+  try{
   // Extract the book ID from the request parameters
   let coverId = request.params.id;
   // Extract the updated book cover data from the request body
@@ -101,6 +110,9 @@ app.put('/books/:id', async (request, response) => {
   let newCover = await bookModel.findByIdAndUpdate(coverId, cover, { $set: { new: true } });
   // Send the updated book cover as the response
   response.send(newCover)
+  } catch(error){
+    console.log(error)
+  }
 });
 
 
