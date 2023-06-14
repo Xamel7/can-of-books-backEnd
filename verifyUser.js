@@ -1,8 +1,8 @@
 const axios = require("axios")
 
 async function verifyUser(request, response, next) {
-    console.log('req url is ' + request.baseurl)
-    console.log('req is ' + request);
+    console.log('req url is ' + request.baseUrl)
+    
     let auth = request.headers.authorization;
     console.log('auth is ' + auth)
     if (auth !== undefined) {
