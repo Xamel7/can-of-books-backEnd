@@ -63,7 +63,7 @@ app.post('/books', async (request, response) => {
       status: request.body.status
     })
     // Assign the email property of the user object to the book
-    cover.email = request.user?.email
+    cover.email = request.user?.email || ""
     // Insert the book cover into the arrayOfBooks collection
     bookModel.insertMany(cover)
       .then(() => {
